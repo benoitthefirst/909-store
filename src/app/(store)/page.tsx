@@ -1,12 +1,9 @@
 import { publicUrl } from "@/env.mjs";
 import { getTranslations } from "@/i18n/server";
-import AccessoriesImage from "@/images/accessories.jpg";
-import ApparelImage from "@/images/apparel.jpg";
-import { CategoryBox } from "@/ui/category-box";
+import productsJson from "@/lib/data.json";
 import { ProductList } from "@/ui/products/product-list";
+import ShopTheLook from "@/ui/products/shop-the-look";
 import { YnsLink } from "@/ui/yns-link";
-import * as Commerce from "commerce-kit";
-import Image from "next/image";
 import type { Metadata } from "next/types";
 
 export const metadata = {
@@ -14,16 +11,23 @@ export const metadata = {
 } satisfies Metadata;
 
 export default async function Home() {
-	const products = await Commerce.productBrowse({ first: 6 });
+	//const products = await Commerce.productBrowse({ first: 6 });
+	const products = productsJson;
 	const t = await getTranslations("/");
 
 	return (
 		<main>
-			<section className="rounded bg-neutral-100 py-8 sm:py-12">
-				<div className="mx-auto grid grid-cols-1 items-center justify-items-center gap-8 px-8 sm:px-16 md:grid-cols-2">
+			<section
+				className="relative rounded bg-cover bg-center py-8 sm:py-12"
+				style={{ backgroundImage: "url('/static/images/hero.webp')" }}
+			>
+				<div className="absolute inset-0 bg-black/40"></div> {/* Optional overlay */}
+				<div className="relative mx-auto grid grid-cols-1 items-center justify-items-center gap-8 px-8 sm:px-16 md:grid-cols-2">
 					<div className="max-w-md space-y-4">
-						<h2 className="text-balance text-3xl font-bold tracking-tight md:text-4xl">{t("hero.title")}</h2>
-						<p className="text-pretty text-neutral-600">{t("hero.description")}</p>
+						<h2 className="text-balance text-3xl font-bold tracking-tight text-neutral-50 md:text-4xl">
+							{t("hero.title")}
+						</h2>
+						<p className="text-pretty text-neutral-200">{t("hero.description")}</p>
 						<YnsLink
 							className="inline-flex h-10 items-center justify-center rounded-full bg-neutral-900 px-6 font-medium text-neutral-50 transition-colors hover:bg-neutral-900/90 focus:outline-none focus:ring-1 focus:ring-neutral-950"
 							href={t("hero.link")}
@@ -31,25 +35,14 @@ export default async function Home() {
 							{t("hero.action")}
 						</YnsLink>
 					</div>
-					<Image
-						alt="Cup of Coffee"
-						loading="eager"
-						priority={true}
-						className="rounded"
-						height={450}
-						width={450}
-						src="https://files.stripe.com/links/MDB8YWNjdF8xT3BaeG5GSmNWbVh6bURsfGZsX3Rlc3RfaDVvWXowdU9ZbWlobUIyaHpNc1hCeDM200NBzvUjqP"
-						style={{
-							objectFit: "cover",
-						}}
-						sizes="(max-width: 640px) 70vw, 450px"
-					/>
 				</div>
 			</section>
 
+			<ShopTheLook />
+
 			<ProductList products={products} />
 
-			<section className="w-full py-8">
+			{/* <section className="w-full py-8">
 				<div className="grid gap-8 lg:grid-cols-2">
 					{[
 						{ categorySlug: "accessories", src: AccessoriesImage },
@@ -58,7 +51,7 @@ export default async function Home() {
 						<CategoryBox key={categorySlug} categorySlug={categorySlug} src={src} />
 					))}
 				</div>
-			</section>
+			</section> */}
 		</main>
 	);
 }

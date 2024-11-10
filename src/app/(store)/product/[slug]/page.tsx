@@ -1,6 +1,7 @@
 import { ProductModel3D } from "@/app/(store)/product/[slug]/product-model3d";
 import { publicUrl } from "@/env.mjs";
 import { getLocale, getTranslations } from "@/i18n/server";
+import productsJson from "@/lib/data.json";
 import { getRecommendedProducts } from "@/lib/search/trieve";
 import { cn, deslugify, formatMoney, formatProductName } from "@/lib/utils";
 import type { TrieveProductMetadata } from "@/scripts/upload-trieve";
@@ -23,7 +24,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next/types";
 import { Suspense } from "react";
-
+/* 
 export const generateMetadata = async (props: {
 	params: Promise<{ slug: string }>;
 	searchParams: Promise<{ variant?: string }>;
@@ -52,16 +53,17 @@ export const generateMetadata = async (props: {
 		alternates: { canonical },
 	} satisfies Metadata;
 };
-
+ */
 export default async function SingleProductPage(props: {
 	params: Promise<{ slug: string }>;
 	searchParams: Promise<{ variant?: string }>;
 }) {
 	const searchParams = await props.searchParams;
 	const params = await props.params;
-	const variants = await Commerce.productGet({ slug: params.slug });
-	const selectedVariant = searchParams.variant || variants[0]?.metadata.variant;
-	const product = variants.find((variant) => variant.metadata.variant === selectedVariant);
+	//const variants = await Commerce.productGet({ slug: params.slug });
+	const variants = productsJson;
+	const selectedVariant = searchParams.variant || variants[0]?.metadata.slug;
+	const product = variants.find((variant) => variant.metadata.slug === selectedVariant);
 
 	if (!product) {
 		return notFound();
@@ -106,105 +108,105 @@ export default async function SingleProductPage(props: {
 				</BreadcrumbList>
 			</Breadcrumb>
 
-			<StickyBottom product={product} locale={locale}>
-				<div className="mt-4 grid gap-4 lg:grid-cols-12">
-					<div className="lg:col-span-5 lg:col-start-8">
-						<h1 className="text-3xl font-bold leading-none tracking-tight text-foreground">{product.name}</h1>
-						{product.default_price.unit_amount && (
-							<p className="mt-2 text-2xl font-medium leading-none tracking-tight text-foreground/70">
-								{formatMoney({
-									amount: product.default_price.unit_amount,
-									currency: product.default_price.currency,
-									locale,
-								})}
-							</p>
-						)}
-						<div className="mt-2">{product.metadata.stock <= 0 && <div>Out of stock</div>}</div>
-					</div>
+			{/* <StickyBottom product={product} locale={locale}> */}
+			<div className="mt-4 grid gap-4 lg:grid-cols-12">
+				<div className="lg:col-span-5 lg:col-start-8">
+					<h1 className="text-3xl font-bold leading-none tracking-tight text-foreground">{product.name}</h1>
+					{product.default_price.unit_amount && (
+						<p className="mt-2 text-2xl font-medium leading-none tracking-tight text-foreground/70">
+							{formatMoney({
+								amount: product.default_price.unit_amount,
+								currency: product.default_price.currency,
+								locale,
+							})}
+						</p>
+					)}
+					<div className="mt-2">{product.metadata.stock <= 0 && <div>Out of stock</div>}</div>
+				</div>
 
-					<div className="lg:col-span-7 lg:row-span-3 lg:row-start-1">
-						<h2 className="sr-only">{t("imagesTitle")}</h2>
+				<div className="lg:col-span-7 lg:row-span-3 lg:row-start-1">
+					<h2 className="sr-only">{t("imagesTitle")}</h2>
 
-						<div className="grid gap-4 lg:grid-cols-3 [&>*:first-child]:col-span-3">
-							{product.metadata.preview && (
+					<div className="grid gap-4 lg:grid-cols-3 [&>*:first-child]:col-span-3">
+						{/* {product.metadata.preview && (
 								<ProductModel3D model3d={product.metadata.preview} imageSrc={product.images[0]} />
-							)}
-							{product.images.map((image, idx) =>
-								idx === 0 && !product.metadata.preview ? (
-									<MainProductImage
-										key={image}
-										className="w-full rounded-lg bg-neutral-100 object-cover object-center transition-opacity"
-										src={image}
-										loading="eager"
-										priority
-										alt=""
-									/>
-								) : (
-									<Image
-										key={image}
-										className="w-full rounded-lg bg-neutral-100 object-cover object-center transition-opacity"
-										src={image}
-										width={700 / 3}
-										height={700 / 3}
-										sizes="(max-width: 1024x) 33vw, (max-width: 1280px) 20vw, 225px"
-										loading="eager"
-										priority
-										alt=""
-									/>
-								),
-							)}
-						</div>
-					</div>
-
-					<div className="grid gap-8 lg:col-span-5">
-						<section>
-							<h2 className="sr-only">{t("descriptionTitle")}</h2>
-							<div className="prose text-secondary-foreground">
-								<Markdown source={product.description || ""} />
-							</div>
-						</section>
-
-						{variants.length > 1 && (
-							<div className="grid gap-2">
-								<p className="text-base font-medium" id="variant-label">
-									{t("variantTitle")}
-								</p>
-								<ul role="list" className="grid grid-cols-4 gap-2" aria-labelledby="variant-label">
-									{variants.map((variant) => {
-										const isSelected = selectedVariant === variant.metadata.variant;
-										return (
-											variant.metadata.variant && (
-												<li key={variant.id}>
-													<YnsLink
-														scroll={false}
-														prefetch={true}
-														href={`/product/${variant.metadata.slug}?variant=${variant.metadata.variant}`}
-														className={cn(
-															"flex cursor-pointer items-center justify-center gap-2 rounded-md border p-2 transition-colors hover:bg-neutral-100",
-															isSelected && "border-black bg-neutral-50 font-medium",
-														)}
-														aria-selected={isSelected}
-													>
-														{deslugify(variant.metadata.variant)}
-													</YnsLink>
-												</li>
-											)
-										);
-									})}
-								</ul>
-							</div>
+							)} */}
+						{product.images.map((image, idx) =>
+							idx === 0 && !product.metadata.preview ? (
+								<MainProductImage
+									key={image}
+									className="w-full rounded-lg bg-neutral-100 object-cover object-center transition-opacity"
+									src={image}
+									loading="eager"
+									priority
+									alt=""
+								/>
+							) : (
+								<Image
+									key={image}
+									className="w-full rounded-lg bg-neutral-100 object-cover object-center transition-opacity"
+									src={image}
+									width={700 / 3}
+									height={700 / 3}
+									sizes="(max-width: 1024x) 33vw, (max-width: 1280px) 20vw, 225px"
+									loading="eager"
+									priority
+									alt=""
+								/>
+							),
 						)}
-
-						<AddToCartButton productId={product.id} disabled={product.metadata.stock <= 0} />
 					</div>
 				</div>
-			</StickyBottom>
+
+				<div className="grid gap-8 lg:col-span-5">
+					<section>
+						<h2 className="sr-only">{t("descriptionTitle")}</h2>
+						<div className="prose text-secondary-foreground">
+							<Markdown source={product.description || ""} />
+						</div>
+					</section>
+
+					{variants.length > 1 && (
+						<div className="grid gap-2">
+							<p className="text-base font-medium" id="variant-label">
+								{t("variantTitle")}
+							</p>
+							<ul role="list" className="grid grid-cols-4 gap-2" aria-labelledby="variant-label">
+								{variants.map((variant) => {
+									const isSelected = selectedVariant === variant.metadata.slug;
+									return (
+										variant.metadata.slug && (
+											<li key={variant.id}>
+												<YnsLink
+													scroll={false}
+													prefetch={true}
+													href={`/product/${variant.metadata.slug}?variant=${variant.metadata.slug}`}
+													className={cn(
+														"flex cursor-pointer items-center justify-center gap-2 rounded-md border p-2 transition-colors hover:bg-neutral-100",
+														isSelected && "border-black bg-neutral-50 font-medium",
+													)}
+													aria-selected={isSelected}
+												>
+													{deslugify(variant.metadata.slug)}
+												</YnsLink>
+											</li>
+										)
+									);
+								})}
+							</ul>
+						</div>
+					)}
+
+					<AddToCartButton productId={product.id} disabled={product.metadata.stock <= 0} />
+				</div>
+			</div>
+			{/* </StickyBottom> */}
 
 			<Suspense>
 				<SimilarProducts id={product.id} />
 			</Suspense>
 
-			<JsonLd jsonLd={mappedProductToJsonLd(product)} />
+			{/* <JsonLd jsonLd={mappedProductToJsonLd(product)} /> */}
 		</article>
 	);
 }
@@ -221,7 +223,7 @@ async function SimilarProducts({ id }: { id: string }) {
 			<div className="mb-8">
 				<h2 className="text-2xl font-bold tracking-tight">You May Also Like</h2>
 			</div>
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+			{/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 				{products.map((product) => {
 					const trieveMetadata = product.metadata as TrieveProductMetadata;
 					return (
@@ -258,7 +260,7 @@ async function SimilarProducts({ id }: { id: string }) {
 						</div>
 					);
 				})}
-			</div>
+			</div> */}
 		</section>
 	);
 }

@@ -1,11 +1,9 @@
 import { getLocale } from "@/i18n/server";
 import { formatMoney } from "@/lib/utils";
-import { JsonLd, mappedProductsToJsonLd } from "@/ui/json-ld";
 import { YnsLink } from "@/ui/yns-link";
-import type * as Commerce from "commerce-kit";
 import Image from "next/image";
 
-export const ProductList = async ({ products }: { products: Commerce.MappedProduct[] }) => {
+export const ProductList = async ({ products }: { products: Product[] }) => {
 	const locale = await getLocale();
 
 	return (
@@ -50,7 +48,7 @@ export const ProductList = async ({ products }: { products: Commerce.MappedProdu
 					);
 				})}
 			</ul>
-			<JsonLd jsonLd={mappedProductsToJsonLd(products)} />
+			{/* <JsonLd jsonLd={mappedProductsToJsonLd(products)} /> */}
 		</>
 	);
 };

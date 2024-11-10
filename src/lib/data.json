@@ -1,0 +1,82 @@
+[
+	{
+		"default_price": {
+			"id": "price_1Example",
+			"object": "price",
+			"currency": "usd",
+			"unit_amount": 1000
+		},
+		"marketing_features": ["High quality material", "Eco-friendly production", "One-year warranty"],
+		"metadata": {
+			"slug": "example-product-1",
+			"stock": 100,
+			"category": "accessories",
+			"order": 1,
+			"variant": "red",
+			"digitalAsset": "https://files.stripe.com/links/MDB8YWNjdF8xT3BaeG5GSmNWbVh6bURsfGZsX3Rlc3RfaDVvWXowdU9ZbWlobUIyaHpNc1hCeDM200NBzvUjqP",
+			"preview": "https://files.stripe.com/links/MDB8YWNjdF8xT3BaeG5GSmNWbVh6bURsfGZsX3Rlc3RfaDVvWXowdU9ZbWlobUIyaHpNc1hCeDM200NBzvUjqP"
+		},
+		"id": "prod_1Example",
+		"object": "product",
+		"active": true,
+		"created": 1622547600,
+		"deleted": null,
+		"description": "An example product description.",
+		"images": ["/static/products/hoodie.webp", "/static/products/hoodie-back.webp"],
+		"livemode": false,
+		"name": "Example Product 1",
+		"package_dimensions": {
+			"height": 10.0,
+			"length": 5.0,
+			"weight": 0.5,
+			"width": 3.0
+		},
+		"shippable": true,
+		"statement_descriptor": "Example Product",
+		"tax_code": null,
+		"type": "good",
+		"unit_label": "item",
+		"updated": 1622547600,
+		"url": "https://example.com/products/example-product-1"
+	},
+	{
+		"default_price": {
+			"id": "price_2Example",
+			"object": "price",
+			"currency": "usd",
+			"unit_amount": 2000
+		},
+		"marketing_features": ["Advanced functionality", "Two-year warranty", "Available in multiple colors"],
+		"metadata": {
+			"slug": "example-product-2",
+			"stock": 50,
+			"category": "electronics",
+			"order": 2,
+			"variant": "blue",
+			"digitalAsset": "https://files.stripe.com/links/MDB8YWNjdF8xT3BaeG5GSmNWbVh6bURsfGZsX3Rlc3RfaDVvWXowdU9ZbWlobUIyaHpNc1hCeDM200NBzvUjqP",
+			"preview": "https://files.stripe.com/links/MDB8YWNjdF8xT3BaeG5GSmNWbVh6bURsfGZsX3Rlc3RfaDVvWXowdU9ZbWlobUIyaHpNc1hCeDM200NBzvUjqP"
+		},
+		"id": "prod_2Example",
+		"object": "product",
+		"active": true,
+		"created": 1622548600,
+		"deleted": null,
+		"description": "Another example product description.",
+		"images": ["/static/products/tee.webp", "/static/products/tee-back.webp"],
+		"livemode": false,
+		"name": "Example Product 2",
+		"package_dimensions": {
+			"height": 15.0,
+			"length": 10.0,
+			"weight": 1.0,
+			"width": 8.0
+		},
+		"shippable": true,
+		"statement_descriptor": "Example Electronics",
+		"tax_code": null,
+		"type": "good",
+		"unit_label": "device",
+		"updated": 1622548600,
+		"url": "https://example.com/products/example-product-2"
+	}
+]
